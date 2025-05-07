@@ -1,0 +1,25 @@
+auto_pgd运行需要的文件：（这四个文件都请放在cmau目录下）
+	auto_pgd_attacks.py
+	auto_pgd_perturbation.pt
+	auto_pgd_setting.json
+	evaluate_cmua_apgd.py
+
+
+
+
+auto_pgd会生成的文件：
+	auto_pgd_perturbation_bad.pt
+
+
+
+
+
+
+整体一起的代码：（cmau目录下）
+	evaluate_all.py
+	attack_all.py
+
+
+
+
+请保证cmau目录下含有outputs文件夹

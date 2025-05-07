@@ -1,0 +1,8 @@
+*.zip
+*.png
+*.jpg
+*.jpeg
+*.npy
+*.ckpt
+*.pyc
+*.tar.gz

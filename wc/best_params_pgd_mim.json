@@ -1,0 +1,42 @@
+{
+    "pgd_attgan": {
+        "epsilon": 0.04924029899420383,
+        "iterations": 50,
+        "step_size": 0.04819650191782289
+    },
+    "pgd_stargan": {
+        "epsilon": 0.03533497910500307,
+        "iterations": 50,
+        "step_size": 0.015130376025695405
+    },
+    "pgd_hisd": {
+        "epsilon": 0.029713618758937375,
+        "iterations": 19,
+        "step_size": 0.9628369039342795
+    },
+    "pgd_attentiongan": {
+        "epsilon": 0.028936030716223977,
+        "iterations": 64,
+        "step_size": 0.8467226012202504
+    },
+    "mim_attgan": {
+        "epsilon": 0.04978,
+        "iterations": 10,
+        "decay_factor": 0.5
+    },
+    "mim_stargan": {
+        "epsilon": 0.04983,
+        "iterations": 10,
+        "decay_factor": 0.5
+    },
+    "mim_hisd": {
+        "epsilon": 0.04897,
+        "iterations": 10,
+        "decay_factor": 0.5
+    },
+    "mim_attentiongan": {
+        "epsilon": 0.04979,
+        "iterations": 10,
+        "decay_factor": 0.5
+    }
+}
