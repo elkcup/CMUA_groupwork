@@ -6,3 +6,4 @@
 *.ckpt
 *.pyc
 *.tar.gz
+*.pth
