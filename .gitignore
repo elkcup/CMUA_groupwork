@@ -1,9 +1,6 @@
-*.zip
-*.png
-*.jpg
-*.jpeg
-*.npy
-*.ckpt
-*.pyc
-*.tar.gz
+*.pt
 *.pth
+*.DS_Store
+*.vscode/settings.json
+checkpoint_128_celeba-hq.pt
+checkpoint_256_celeba-hq.pt
