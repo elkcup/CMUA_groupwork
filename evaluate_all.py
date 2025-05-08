@@ -72,7 +72,7 @@ subset = data.Subset(test_dataloader.dataset, list(range(129,134)))
 sub_loader = data.DataLoader(subset, batch_size=1, shuffle=False)
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-output_dir = os.path.join(current_dir, 'output')
+output_dir = os.path.join(current_dir, 'outputs')
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 #################################
