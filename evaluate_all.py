@@ -71,6 +71,10 @@ print("模型和数据加载完成！")
 subset = data.Subset(test_dataloader.dataset, list(range(129,134)))
 sub_loader = data.DataLoader(subset, batch_size=1, shuffle=False)
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+output_dir = os.path.join(current_dir, 'output')
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 #################################
 #           PGD和MIM评估        # @Wang Chao
 #################################
