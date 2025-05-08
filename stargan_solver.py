@@ -271,7 +271,7 @@ class Solver(object):
             #                             1. Preprocess input data                                #
             # =================================================================================== #
 
-            # Fetch real images and labels.
+            # Fetch real img_align_celeba and labels.
             try:
                 x_real, label_org = next(data_iter)
             except:
@@ -289,7 +289,7 @@ class Solver(object):
                 c_org = self.label2onehot(label_org, self.c_dim)
                 c_trg = self.label2onehot(label_trg, self.c_dim)
 
-            x_real = x_real.to(self.device)  # Input images.
+            x_real = x_real.to(self.device)  # Input img_align_celeba.
             c_org = c_org.to(self.device)  # Original domain labels.
             c_trg = c_trg.to(self.device)  # Target domain labels.
             label_org = label_org.to(self.device)  # Labels for computing classification loss.
@@ -299,12 +299,12 @@ class Solver(object):
             #                             2. Train the discriminator                              #
             # =================================================================================== #
 
-            # Compute loss with real images.
+            # Compute loss with real img_align_celeba.
             out_src, out_cls = self.D(x_real)  # No Attack
             d_loss_real = - torch.mean(out_src)
             d_loss_cls = self.classification_loss(out_cls, label_org, self.dataset)
 
-            # Compute loss with fake images.
+            # Compute loss with fake img_align_celeba.
             x_fake, _ = self.G(x_real, c_trg)  # No Attack
             out_src, out_cls = self.D(x_fake.detach())  # No Attack
             d_loss_fake = torch.mean(out_src)
@@ -370,7 +370,7 @@ class Solver(object):
                     for tag, value in loss.items():
                         self.logger.scalar_summary(tag, value, i + 1)
 
-            # Translate fixed images for debugging.
+            # Translate fixed img_align_celeba for debugging.
             if (i + 1) % self.sample_step == 0:
                 with torch.no_grad():
                     x_fake_list = [x_fixed]
@@ -378,9 +378,9 @@ class Solver(object):
                         elt, _ = self.G(x_fixed, c_fixed)
                         x_fake_list.append(elt)
                     x_concat = torch.cat(x_fake_list, dim=3)
-                    sample_path = os.path.join(self.sample_dir, '{}-images.jpg'.format(i + 1))
+                    sample_path = os.path.join(self.sample_dir, '{}-img_align_celeba.jpg'.format(i + 1))
                     save_image(self.denorm(x_concat.data.cpu()), sample_path, nrow=1, padding=0)
-                    print('Saved real and fake images into {}...'.format(sample_path))
+                    print('Saved real and fake img_align_celeba into {}...'.format(sample_path))
 
             # Save model checkpoints.
             if (i + 1) % self.model_save_step == 0:
@@ -430,7 +430,7 @@ class Solver(object):
             #                             1. Preprocess input data                                #
             # =================================================================================== #
 
-            # Fetch real images and labels.
+            # Fetch real img_align_celeba and labels.
             try:
                 x_real, label_org = next(data_iter)
             except:
@@ -448,7 +448,7 @@ class Solver(object):
                 c_org = self.label2onehot(label_org, self.c_dim)
                 c_trg = self.label2onehot(label_trg, self.c_dim)
 
-            x_real = x_real.to(self.device)  # Input images.
+            x_real = x_real.to(self.device)  # Input img_align_celeba.
             c_org = c_org.to(self.device)  # Original domain labels.
             c_trg = c_trg.to(self.device)  # Target domain labels.
             label_org = label_org.to(self.device)  # Labels for computing classification loss.
@@ -459,12 +459,12 @@ class Solver(object):
             #                             2. Train the discriminator                              #
             # =================================================================================== #
 
-            # Compute loss with real images.
+            # Compute loss with real img_align_celeba.
             out_src, out_cls = self.D(x_real)  # No Attack
             d_loss_real = - torch.mean(out_src)
             d_loss_cls = self.classification_loss(out_cls, label_org, self.dataset)
 
-            # Compute loss with fake images.
+            # Compute loss with fake img_align_celeba.
             x_fake, _ = self.G(x_real, c_trg)  # No Attack
             out_src, out_cls = self.D(x_fake.detach())  # No Attack
             d_loss_fake = torch.mean(out_src)
@@ -539,7 +539,7 @@ class Solver(object):
                     for tag, value in loss.items():
                         self.logger.scalar_summary(tag, value, i + 1)
 
-            # Translate fixed images for debugging.
+            # Translate fixed img_align_celeba for debugging.
             if (i + 1) % self.sample_step == 0:
                 with torch.no_grad():
                     x_fake_list = [x_fixed]
@@ -547,9 +547,9 @@ class Solver(object):
                         elt, _ = self.G(x_fixed, c_fixed)
                         x_fake_list.append(elt)
                     x_concat = torch.cat(x_fake_list, dim=3)
-                    sample_path = os.path.join(self.sample_dir, '{}-images.jpg'.format(i + 1))
+                    sample_path = os.path.join(self.sample_dir, '{}-img_align_celeba.jpg'.format(i + 1))
                     save_image(self.denorm(x_concat.data.cpu()), sample_path, nrow=1, padding=0)
-                    print('Saved real and fake images into {}...'.format(sample_path))
+                    print('Saved real and fake img_align_celeba into {}...'.format(sample_path))
 
             # Save model checkpoints.
             if (i + 1) % self.model_save_step == 0:
@@ -599,7 +599,7 @@ class Solver(object):
             #                             1. Preprocess input data                                #
             # =================================================================================== #
 
-            # Fetch real images and labels.
+            # Fetch real img_align_celeba and labels.
             try:
                 x_real, label_org = next(data_iter)
             except:
@@ -617,7 +617,7 @@ class Solver(object):
                 c_org = self.label2onehot(label_org, self.c_dim)
                 c_trg = self.label2onehot(label_trg, self.c_dim)
 
-            x_real = x_real.to(self.device)  # Input images.
+            x_real = x_real.to(self.device)  # Input img_align_celeba.
             c_org = c_org.to(self.device)  # Original domain labels.
             c_trg = c_trg.to(self.device)  # Target domain labels.
             label_org = label_org.to(self.device)  # Labels for computing classification loss.
@@ -634,12 +634,12 @@ class Solver(object):
             #                             2. Train the discriminator                              #
             # =================================================================================== #
 
-            # Compute loss with real images.
+            # Compute loss with real img_align_celeba.
             out_src, out_cls = self.D(x_real_adv)  # Attack
             d_loss_real = - torch.mean(out_src)
             d_loss_cls = self.classification_loss(out_cls, label_org, self.dataset)
 
-            # Compute loss with fake images.
+            # Compute loss with fake img_align_celeba.
             x_fake, _ = self.G(x_real_adv, c_trg)  # Attack
             x_fake_adv = attacks.perturb_batch(x_fake, black, c_org, self.G, pgd_attack)  # Adversarial training
             out_src, out_cls = self.D(x_fake_adv.detach())  # Attack
@@ -708,7 +708,7 @@ class Solver(object):
                     for tag, value in loss.items():
                         self.logger.scalar_summary(tag, value, i + 1)
 
-            # Translate fixed images for debugging.
+            # Translate fixed img_align_celeba for debugging.
             if (i + 1) % self.sample_step == 0:
                 with torch.no_grad():
                     x_fake_list = [x_fixed]
@@ -716,9 +716,9 @@ class Solver(object):
                         elt, _ = self.G(x_fixed, c_fixed)
                         x_fake_list.append(elt)
                     x_concat = torch.cat(x_fake_list, dim=3)
-                    sample_path = os.path.join(self.sample_dir, '{}-images.jpg'.format(i + 1))
+                    sample_path = os.path.join(self.sample_dir, '{}-img_align_celeba.jpg'.format(i + 1))
                     save_image(self.denorm(x_concat.data.cpu()), sample_path, nrow=1, padding=0)
-                    print('Saved real and fake images into {}...'.format(sample_path))
+                    print('Saved real and fake img_align_celeba into {}...'.format(sample_path))
 
             # Save model checkpoints.
             if (i + 1) % self.model_save_step == 0:
@@ -771,7 +771,7 @@ class Solver(object):
                 #                             1. Preprocess input data                                #
                 # =================================================================================== #
 
-                # Fetch real images and labels.
+                # Fetch real img_align_celeba and labels.
                 data_iter = celeba_iter if dataset == 'CelebA' else rafd_iter
 
                 try:
@@ -803,7 +803,7 @@ class Solver(object):
                     c_org = torch.cat([zero, c_org, mask], dim=1)
                     c_trg = torch.cat([zero, c_trg, mask], dim=1)
 
-                x_real = x_real.to(self.device)  # Input images.
+                x_real = x_real.to(self.device)  # Input img_align_celeba.
                 c_org = c_org.to(self.device)  # Original domain labels.
                 c_trg = c_trg.to(self.device)  # Target domain labels.
                 label_org = label_org.to(self.device)  # Labels for computing classification loss.
@@ -813,13 +813,13 @@ class Solver(object):
                 #                             2. Train the discriminator                              #
                 # =================================================================================== #
 
-                # Compute loss with real images.
+                # Compute loss with real img_align_celeba.
                 out_src, out_cls = self.D(x_real)
                 out_cls = out_cls[:, :self.c_dim] if dataset == 'CelebA' else out_cls[:, self.c_dim:]
                 d_loss_real = - torch.mean(out_src)
                 d_loss_cls = self.classification_loss(out_cls, label_org, dataset)
 
-                # Compute loss with fake images.
+                # Compute loss with fake img_align_celeba.
                 x_fake = self.G(x_real, c_trg)
                 out_src, _ = self.D(x_fake.detach())
                 d_loss_fake = torch.mean(out_src)
@@ -887,7 +887,7 @@ class Solver(object):
                         for tag, value in loss.items():
                             self.logger.scalar_summary(tag, value, i + 1)
 
-            # Translate fixed images for debugging.
+            # Translate fixed img_align_celeba for debugging.
             if (i + 1) % self.sample_step == 0:
                 with torch.no_grad():
                     x_fake_list = [x_fixed]
@@ -898,9 +898,9 @@ class Solver(object):
                         c_trg = torch.cat([zero_celeba, c_fixed, mask_rafd], dim=1)
                         x_fake_list.append(self.G(x_fixed, c_trg))
                     x_concat = torch.cat(x_fake_list, dim=3)
-                    sample_path = os.path.join(self.sample_dir, '{}-images.jpg'.format(i + 1))
+                    sample_path = os.path.join(self.sample_dir, '{}-img_align_celeba.jpg'.format(i + 1))
                     save_image(self.denorm(x_concat.data.cpu()), sample_path, nrow=1, padding=0)
-                    print('Saved real and fake images into {}...'.format(sample_path))
+                    print('Saved real and fake img_align_celeba into {}...'.format(sample_path))
 
             # Save model checkpoints.
             if (i + 1) % self.model_save_step == 0:
@@ -918,7 +918,7 @@ class Solver(object):
                 print('Decayed learning rates, g_lr: {}, d_lr: {}.'.format(g_lr, d_lr))
 
     def test(self):
-        """Translate images using StarGAN trained on a single dataset. No attack."""
+        """Translate img_align_celeba using StarGAN trained on a single dataset. No attack."""
         # Load the trained generator.
         self.restore_model(self.test_iters)
 
@@ -931,20 +931,20 @@ class Solver(object):
         with torch.no_grad():
             for i, (x_real, c_org) in enumerate(data_loader):
 
-                # Prepare input images and target domain labels.
+                # Prepare input img_align_celeba and target domain labels.
                 x_real = x_real.to(self.device)
                 c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
 
-                # Translate images.
+                # Translate img_align_celeba.
                 x_fake_list = [x_real]
                 for c_trg in c_trg_list:
                     x_fake_list.append(self.G(x_real, c_trg))
 
-                # Save the translated images.
+                # Save the translated img_align_celeba.
                 x_concat = torch.cat(x_fake_list, dim=3)
-                result_path = os.path.join(self.result_dir, '{}-images.jpg'.format(i + 1))
+                result_path = os.path.join(self.result_dir, '{}-img_align_celeba.jpg'.format(i + 1))
                 save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
-                print('Saved real and fake images into {}...'.format(result_path))
+                print('Saved real and fake img_align_celeba into {}...'.format(result_path))
 
     def test_attack(self):
         """Vanilla or blur attacks."""
@@ -963,13 +963,13 @@ class Solver(object):
         n_dist, n_samples = 0, 0
 
         for i, (x_real, c_org) in enumerate(data_loader):
-            # Prepare input images and target domain labels.
+            # Prepare input img_align_celeba and target domain labels.
             x_real = x_real.to(self.device)
             c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
 
             pgd_attack = attacks.LinfPGDAttack(model=self.G, device=self.device, feat=None)
 
-            # Translated images.
+            # Translated img_align_celeba.
             x_fake_list = [x_real]
 
             for idx, c_trg in enumerate(c_trg_list):
@@ -1010,15 +1010,15 @@ class Solver(object):
                         n_dist += 1
                     n_samples += 1
 
-            # Save the translated images.
+            # Save the translated img_align_celeba.
             x_concat = torch.cat(x_fake_list, dim=3)
-            result_path = os.path.join(self.result_dir, '{}-images.jpg'.format(i + 1))
+            result_path = os.path.join(self.result_dir, '{}-img_align_celeba.jpg'.format(i + 1))
             save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
-            if i == 49:  # stop after this many images
+            if i == 49:  # stop after this many img_align_celeba
                 break
 
         # Print metrics
-        print('{} images. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(n_samples,
+        print('{} img_align_celeba. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(n_samples,
                                                                                                              l1_error / n_samples,
                                                                                                              l2_error / n_samples,
                                                                                                              float(
@@ -1045,12 +1045,12 @@ class Solver(object):
         pgd_attack = attacks.LinfPGDAttack(model=self.G, device=self.device, feat=None)
 
         for i, (x_real, c_org) in enumerate(data_loader):
-            # Prepare input images and target domain labels.
+            # Prepare input img_align_celeba and target domain labels.
             x_real = x_real.to(self.device)
             c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
             print(x_real.shape, 2333)
             print(c_org)
-            # Translated images.
+            # Translated img_align_celeba.
             x_fake_list = [x_real]
 
             for idx, c_trg in enumerate(c_trg_list):
@@ -1075,12 +1075,12 @@ class Solver(object):
                 # x_adv = self.blur_tensor(x_adv)   # use blur
 
                 # Metrics
-            if i == 49:  # stop after this many images
+            if i == 49:  # stop after this many img_align_celeba
                 break
         for i, (x_real, c_org) in enumerate(data_loader):
             x_real = x_real.to(self.device)
             c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
-            # Translated images.
+            # Translated img_align_celeba.
             x_fake_list = [x_real]
             for idx, c_trg in enumerate(c_trg_list):
                 x_adv = x_real + pgd_attack.up
@@ -1101,15 +1101,15 @@ class Solver(object):
                         n_dist += 1
                     n_samples += 1
 
-            # Save the translated images.
+            # Save the translated img_align_celeba.
             x_concat = torch.cat(x_fake_list, dim=3)
-            result_path = os.path.join(self.result_dir, '{}-images-universal.jpg'.format(i + 1))
+            result_path = os.path.join(self.result_dir, '{}-img_align_celeba-universal.jpg'.format(i + 1))
             save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
-            if i == 49:  # stop after this many images
+            if i == 49:  # stop after this many img_align_celeba
                 break
 
         # Print metrics
-        print('{} images. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(n_samples,
+        print('{} img_align_celeba. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(n_samples,
                                                                                                              l1_error / n_samples,
                                                                                                              l2_error / n_samples,
                                                                                                              float(
@@ -1140,14 +1140,14 @@ class Solver(object):
             print('Layer', layer_num_orig)
 
             for i, (x_real, c_org) in enumerate(data_loader):
-                # Prepare input images and target domain labels.
+                # Prepare input img_align_celeba and target domain labels.
                 x_real = x_real.to(self.device)
                 c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
 
                 layer_num = layer_dict[layer_num_orig]  # get layer number
                 pgd_attack = attacks.LinfPGDAttack(model=self.G, device=self.device, feat=layer_num)
 
-                # Translate images.
+                # Translate img_align_celeba.
                 x_fake_list = [x_real]
 
                 for c_trg in c_trg_list:
@@ -1178,15 +1178,15 @@ class Solver(object):
                             n_dist += 1
                         n_samples += 1
 
-                # Save the translated images.
+                # Save the translated img_align_celeba.
                 x_concat = torch.cat(x_fake_list, dim=3)
-                result_path = os.path.join(self.result_dir, '{}-{}-images.jpg'.format(layer_num_orig, i + 1))
+                result_path = os.path.join(self.result_dir, '{}-{}-img_align_celeba.jpg'.format(layer_num_orig, i + 1))
                 save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
                 if i == 49:
                     break
 
             # Print metrics
-            print('{} images. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(
+            print('{} img_align_celeba. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(
                 n_samples,
                 l1_error / n_samples, l2_error / n_samples, float(n_dist) / n_samples, l0_error / n_samples,
                 min_dist / n_samples))
@@ -1207,13 +1207,13 @@ class Solver(object):
         n_dist, n_samples = 0, 0
 
         for i, (x_real, c_org) in enumerate(data_loader):
-            # Prepare input images and target domain labels.
+            # Prepare input img_align_celeba and target domain labels.
             x_real = x_real.to(self.device)
             c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
 
             pgd_attack = attacks.LinfPGDAttack(model=self.G, device=self.device, feat=None)
 
-            # Translate images.
+            # Translate img_align_celeba.
             x_fake_list = [x_real]
 
             for idx, c_trg in enumerate(c_trg_list):
@@ -1255,15 +1255,15 @@ class Solver(object):
                         n_dist += 1
                     n_samples += 1
 
-            # Save the translated images.
+            # Save the translated img_align_celeba.
             x_concat = torch.cat(x_fake_list, dim=3)
-            result_path = os.path.join(self.result_dir, '{}-images.jpg'.format(i + 1))
+            result_path = os.path.join(self.result_dir, '{}-img_align_celeba.jpg'.format(i + 1))
             save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
             if i == 49:
                 break
 
         # Print metrics
-        print('{} images. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(n_samples,
+        print('{} img_align_celeba. L1 error: {}. L2 error: {}. prop_dist: {}. L0 error: {}. L_-inf error: {}.'.format(n_samples,
                                                                                                              l1_error / n_samples,
                                                                                                              l2_error / n_samples,
                                                                                                              float(
@@ -1272,14 +1272,14 @@ class Solver(object):
                                                                                                              min_dist / n_samples))
 
     def test_multi(self):
-        """Translate images using StarGAN trained on multiple datasets."""
+        """Translate img_align_celeba using StarGAN trained on multiple datasets."""
         # Load the trained generator.
         self.restore_model(self.test_iters)
 
         with torch.no_grad():
             for i, (x_real, c_org) in enumerate(self.celeba_loader):
 
-                # Prepare input images and target domain labels.
+                # Prepare input img_align_celeba and target domain labels.
                 x_real = x_real.to(self.device)
                 c_celeba_list = self.create_labels(c_org, self.c_dim, 'CelebA', self.selected_attrs)
                 c_rafd_list = self.create_labels(c_org, self.c2_dim, 'RaFD')
@@ -1288,7 +1288,7 @@ class Solver(object):
                 mask_celeba = self.label2onehot(torch.zeros(x_real.size(0)), 2).to(self.device)  # Mask vector: [1, 0].
                 mask_rafd = self.label2onehot(torch.ones(x_real.size(0)), 2).to(self.device)  # Mask vector: [0, 1].
 
-                # Translate images.
+                # Translate img_align_celeba.
                 x_fake_list = [x_real]
                 for c_celeba in c_celeba_list:
                     c_trg = torch.cat([c_celeba, zero_rafd, mask_celeba], dim=1)
@@ -1297,11 +1297,11 @@ class Solver(object):
                     c_trg = torch.cat([zero_celeba, c_rafd, mask_rafd], dim=1)
                     x_fake_list.append(self.G(x_real, c_trg))
 
-                # Save the translated images.
+                # Save the translated img_align_celeba.
                 x_concat = torch.cat(x_fake_list, dim=3)
-                result_path = os.path.join(self.result_dir, '{}-images.jpg'.format(i + 1))
+                result_path = os.path.join(self.result_dir, '{}-img_align_celeba.jpg'.format(i + 1))
                 save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
-                print('Saved real and fake images into {}...'.format(result_path))
+                print('Saved real and fake img_align_celeba into {}...'.format(result_path))
 
     def blur_tensor(self, tensor):
         # preproc = smoothing.AverageSmoothing2D(channels=3, kernel_size=9).to(self.device)
@@ -1314,10 +1314,10 @@ class Solver(object):
         # Load the trained generator.
         # self.restore_model(self.test_iters)
 
-        # Prepare input images and target domain labels.
+        # Prepare input img_align_celeba and target domain labels.
         x_real = x_real.to(self.device)
         c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
-        # Translated images.
+        # Translated img_align_celeba.
         x_fake_list = [x_real]
 
         for idx, c_trg in enumerate(c_trg_list):
@@ -1336,10 +1336,10 @@ class Solver(object):
         # Load the trained generator.
         # self.restore_model(self.test_iters)
 
-        # Prepare input images and target domain labels.
+        # Prepare input img_align_celeba and target domain labels.
         x_real = x_real.to(self.device)
         c_trg_list = self.create_labels(c_org, self.c_dim, self.dataset, self.selected_attrs)
-        # Translated images.
+        # Translated img_align_celeba.
         x_adv = x_real + perturb
         x_fake_list = [x_real, x_adv]
         x_noattack_list = []
@@ -1352,13 +1352,13 @@ class Solver(object):
                 x_noattack_list.append(gen_noattack)
 
         # x_concat = torch.cat(x_fake_list, dim=3)
-        # result_path = os.path.join(args.compare_output_path, '{}-images.jpg'.format(i+182638))
+        # result_path = os.path.join(args.compare_output_path, '{}-img_align_celeba.jpg'.format(i+182638))
         # save_image(self.denorm(x_concat.data.cpu()), result_path, nrow=1, padding=0)
         # # 只保存对抗生成的图片做指标评测
         # for j in range(len(x_fake_list)-2):
-        #     result_path = os.path.join(args.details_output_path, '{}-images-{}.jpg'.format(i+182638, j))
+        #     result_path = os.path.join(args.details_output_path, '{}-img_align_celeba-{}.jpg'.format(i+182638, j))
         #     save_image(self.denorm(x_fake_list[j+2].data.cpu()), result_path, nrow=1, padding=0)
 
-        # print('Saved real and fake images into {}...'.format(result_path))
+        # print('Saved real and fake img_align_celeba into {}...'.format(result_path))
         return x_noattack_list, x_fake_list[2:]
 

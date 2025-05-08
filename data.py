@@ -5,7 +5,6 @@ from PIL import Image
 import torch
 import os
 import random
-import cv2
 import numpy as np
 
 class CelebA(data.Dataset):
@@ -17,8 +16,8 @@ class CelebA(data.Dataset):
         self.stargan_selected_attrs = stargan_selected_attrs
         att_list = open(attr_path, 'r', encoding='utf-8').readlines()[1].split()
         atts = [att_list.index(att) + 1 for att in selected_attrs]
-        images = np.loadtxt(attr_path, skiprows=2, usecols=[0], dtype=np.str)
-        labels = np.loadtxt(attr_path, skiprows=2, usecols=atts, dtype=np.int)
+        images = np.loadtxt(attr_path, skiprows=2, usecols=[0], dtype=str)
+        labels = np.loadtxt(attr_path, skiprows=2, usecols=atts, dtype=int)
         
         if mode == 'train':
             self.images = images[:182000]

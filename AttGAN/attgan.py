@@ -147,7 +147,10 @@ class AttGAN():
         self.G = self.G.to(self.device)
         summary(self.G, [(3, args.img_size, args.img_size), (args.n_attrs, 1, 1)], batch_size=4, device=self.device_str)
         ## 增加兼容
-
+        # self.G.train()
+        # if self.gpu: self.G.cuda()
+        # summary(self.G, [(3, args.img_size, args.img_size), (args.n_attrs, 1, 1)], batch_size=4, device='cuda' if args.gpu else 'cpu')
+        
         self.D = Discriminators(
             args.dis_dim, args.dis_norm, args.dis_acti,
             args.dis_fc_dim, args.dis_fc_norm, args.dis_fc_acti, args.dis_layers, args.img_size
