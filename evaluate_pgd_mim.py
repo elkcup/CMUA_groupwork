@@ -62,6 +62,9 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
     for idx,(img_a,att_a,c_org) in enumerate(tqdm(test_dataloader, desc="PGD攻击进度")):
         if(args_attack.pgd_attacks.num_test is not None and idx>=args_attack.pgd_attacks.num_test):
             break
+
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a, os.path.join(inference_path, f'img_a_{idx}.jpg'), normalize=True, nrow=1)
     ## 1. 评估HiSD
         img_a=img_a.to(device)
         
@@ -93,6 +96,10 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_hisd += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_hisd += (gen - gen_noattack).norm(0)
             min_dist_hisd += (gen - gen_noattack).norm(float('-inf'))
+            if idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_hisd_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_hisd_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(img_a+perturb_hisd, os.path.join(inference_path, f'img_a_hisd_{idx}.jpg'), normalize=True, nrow=1)
 
 
     ## 2. 评估AttGAN
@@ -127,6 +134,12 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_att += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_att += (gen - gen_noattack).norm(0)
             min_dist_att += (gen - gen_noattack).norm(float('-inf'))
+            if idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_attgan_att{i}_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_attgan_att{i}_{idx}.jpg'), normalize=True, nrow=1)
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a+perturb_attgan, os.path.join(inference_path, f'img_a_attgan_{idx}.jpg'), normalize=True, nrow=1)
+
      
 
     ## 3. 评估AttentionGAN
@@ -150,6 +163,11 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_attention += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_attention += (gen - gen_noattack).norm(0)
             min_dist_attention += (gen - gen_noattack).norm(float('-inf'))
+            if idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_attention{j}_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_attention{j}_{idx}.jpg'), normalize=True, nrow=1)
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a+perturb_attention, os.path.join(inference_path, f'img_a_attention_{idx}.jpg'), normalize=True, nrow=1)
 
     ## 4. 评估StarGAN
         x_noattack_list, x_fake_list = solver.test_universal_model_level(idx, img_a, c_org, perturb_stargan, args_attack.stargan)
@@ -175,9 +193,12 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             if idx==0 and j==0 and inference_path==None:
                 vutils.save_image(gen_noattack, 'outputs/PGD_gen_noattack.jpg', normalize=True, nrow=1)
                 vutils.save_image(gen, 'outputs/PGD_gen_attack.jpg', normalize=True, nrow=1)
-            elif idx==0 and j==0 and inference_path!=None:
-                vutils.save_image(gen_noattack, os.path.join(inference_path, 'PGD_gen_noattack.jpg'), normalize=True, nrow=1)
-                vutils.save_image(gen, os.path.join(inference_path, 'PGD_gen_attack.jpg'), normalize=True, nrow=1)
+            elif idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_stargan{j}_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_stargan{j}_{idx}.jpg'), normalize=True, nrow=1)
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a+perturb_stargan, os.path.join(inference_path, f'img_a_stargan_{idx}.jpg'), normalize=True, nrow=1)
+
     
     # print(f"HiSD: l1 error: {l1_hisd / n_samples_hisd}, l2_error: {l2_hisd / n_samples_hisd}, prop_dist: {float(n_dist_hisd) / n_samples_hisd}, L0 error: {l0_hisd / n_samples_hisd}, L_-inf error: {min_dist_hisd / n_samples_hisd}.")
     hisd_prop_dist = float(n_dist_hisd) / n_samples_hisd
@@ -278,6 +299,10 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_hisd += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_hisd += (gen - gen_noattack).norm(0)
             min_dist_hisd += (gen - gen_noattack).norm(float('-inf'))
+            if idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_hisd_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_hisd_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(img_a+perturb_hisd, os.path.join(inference_path, f'img_a_hisd_{idx}.jpg'), normalize=True, nrow=1)
 
 
     ## 2. 评估AttGAN
@@ -312,6 +337,12 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_att += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_att += (gen - gen_noattack).norm(0)
             min_dist_att += (gen - gen_noattack).norm(float('-inf'))
+            if idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_attgan_att{i}_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_attgan_att{i}_{idx}.jpg'), normalize=True, nrow=1)
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a+perturb_attgan, os.path.join(inference_path, f'img_a_attgan_{idx}.jpg'), normalize=True, nrow=1)
+
      
 
     ## 3. 评估AttentionGAN
@@ -335,6 +366,12 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_attention += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_attention += (gen - gen_noattack).norm(0)
             min_dist_attention += (gen - gen_noattack).norm(float('-inf'))
+            if idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_attention{j}_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_attention{j}_{idx}.jpg'), normalize=True, nrow=1)
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a+perturb_attention, os.path.join(inference_path, f'img_a_attention_{idx}.jpg'), normalize=True, nrow=1)
+
 
     ## 4. 评估StarGAN
         x_noattack_list, x_fake_list = solver.test_universal_model_level(idx, img_a, c_org, perturb_stargan, args_attack.stargan)
@@ -360,10 +397,11 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
                 vutils.save_image(gen_noattack, 'outputs/MIM_gen_noattack.jpg', normalize=True, nrow=1)
                 vutils.save_image(gen, 'outputs/MIM_gen_attack.jpg', normalize=True, nrow=1)
                 vutils.save_image(img_a+perturb_stargan, 'outputs/MIM_img_a.jpg', normalize=True, nrow=1)
-            elif idx==0 and j==0 and inference_path!=None:
-                vutils.save_image(gen_noattack, os.path.join(inference_path, 'MIM_gen_noattack.jpg'), normalize=True, nrow=1)
-                vutils.save_image(gen, os.path.join(inference_path, 'MIM_gen_attack.jpg'), normalize=True, nrow=1)
-                vutils.save_image(img_a+perturb_stargan, os.path.join(inference_path, 'MIM_img_a.jpg'), normalize=True, nrow=1)
+            elif idx==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, f'noattack_stargan{j}_{idx}.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, f'attack_stargan{j}_{idx}.jpg'), normalize=True, nrow=1)
+        if idx==0 and inference_path!=None:
+            vutils.save_image(img_a+perturb_stargan, os.path.join(inference_path, f'img_a_stargan_{idx}.jpg'), normalize=True, nrow=1)
     
     # print(f"HiSD: l1 error: {l1_hisd / n_samples_hisd}, l2_error: {l2_hisd / n_samples_hisd}, prop_dist: {float(n_dist_hisd) / n_samples_hisd}, L0 error: {l0_hisd / n_samples_hisd}, L_-inf error: {min_dist_hisd / n_samples_hisd}.")
     hisd_prop_dist = float(n_dist_hisd) / n_samples_hisd
