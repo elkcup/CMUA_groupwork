@@ -34,9 +34,12 @@
    |```pgd_attentiongan_perturbation.pt```| PGD针对AttentionGAN模型的扰动文件|
 
 2. 扰动训练</br>
-   PGD：请先在```CMD```中进入项目主路径，然后运行```python pgd_attack.py```，会自动在主目录生成```.pt```扰动文件</br>
-   MIM：请先在```CMD```中进入项目主路径，然后运行```python mim_attack.py```会自动在主目录生成```.pt```扰动文件</br>
-   注：此处的扰动训练均为针对单个模型的扰动。
+   PGD：```python pgd_attack.py```</br>
+   MIM：```python mim_attack.py```</br>
+
+3. 推理：</br>
+
+   
 
 
 ## DI2-FGSM and M-DI2-FGSM

@@ -8,7 +8,7 @@ import os
 from tqdm import tqdm
 from AttGAN.data import check_attribute_conflict
 
-def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference):
+def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference,inference_path=None):
     '''评估PGD攻击的效果
     Args:
         args_attack: 攻击参数
@@ -23,6 +23,7 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
         G: 生成器
         E: 编码器
         reference: 参考图像
+        inference_path: 若进行推理，结果保存的路径
         '''
 
     device = torch.device('cuda' if torch.cuda.is_available() and args_attack.global_settings.gpu else 'cpu')
@@ -171,9 +172,12 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l0_stargan += (gen - gen_noattack).norm(0)
             min_dist_stargan += (gen - gen_noattack).norm(float('-inf'))
 
-            if idx==0 and j==0:
+            if idx==0 and j==0 and inference_path==None:
                 vutils.save_image(gen_noattack, 'outputs/PGD_gen_noattack.jpg', normalize=True, nrow=1)
                 vutils.save_image(gen, 'outputs/PGD_gen_attack.jpg', normalize=True, nrow=1)
+            elif idx==0 and j==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, 'PGD_gen_noattack.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, 'PGD_gen_attack.jpg'), normalize=True, nrow=1)
     
     # print(f"HiSD: l1 error: {l1_hisd / n_samples_hisd}, l2_error: {l2_hisd / n_samples_hisd}, prop_dist: {float(n_dist_hisd) / n_samples_hisd}, L0 error: {l0_hisd / n_samples_hisd}, L_-inf error: {min_dist_hisd / n_samples_hisd}.")
     hisd_prop_dist = float(n_dist_hisd) / n_samples_hisd
@@ -189,7 +193,7 @@ def evaluate_pgd(args_attack, test_dataloader, attgan, attgan_args, solver, atte
 
     return hisd_prop_dist, attgan_prop_dist, attentiongan_prop_dist, stargan_prop_dist
 
-def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference):
+def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference,inference_path=None):
     '''评估MIM攻击的效果
     Args:
         args_attack: 攻击参数
@@ -204,6 +208,7 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
         G: 生成器
         E: 编码器
         reference: 参考图像
+        inference_path: 若进行推理，结果保存的路径
         '''
 
     device = torch.device('cuda' if torch.cuda.is_available() and args_attack.global_settings.gpu else 'cpu')
@@ -240,7 +245,7 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
 
 
     for idx,(img_a,att_a,c_org) in enumerate(tqdm(test_dataloader, desc="MIM攻击进度")):
-        if(args_attack.pgd_attacks.num_test is not None and idx>=args_attack.pgd_attacks.num_test):
+        if(args_attack.mim_attacks.num_test is not None and idx>=args_attack.mim_attacks.num_test):
             break
     ## 1. 评估HiSD
         img_a=img_a.to(device)
@@ -351,10 +356,14 @@ def evaluate_mim(args_attack, test_dataloader, attgan, attgan_args, solver, atte
             l2_stargan += torch.nn.functional.mse_loss(gen, gen_noattack)
             l0_stargan += (gen - gen_noattack).norm(0)
             min_dist_stargan += (gen - gen_noattack).norm(float('-inf'))
-            if idx==0 and j==0:
+            if idx==0 and j==0 and inference_path==None:
                 vutils.save_image(gen_noattack, 'outputs/MIM_gen_noattack.jpg', normalize=True, nrow=1)
                 vutils.save_image(gen, 'outputs/MIM_gen_attack.jpg', normalize=True, nrow=1)
                 vutils.save_image(img_a+perturb_stargan, 'outputs/MIM_img_a.jpg', normalize=True, nrow=1)
+            elif idx==0 and j==0 and inference_path!=None:
+                vutils.save_image(gen_noattack, os.path.join(inference_path, 'MIM_gen_noattack.jpg'), normalize=True, nrow=1)
+                vutils.save_image(gen, os.path.join(inference_path, 'MIM_gen_attack.jpg'), normalize=True, nrow=1)
+                vutils.save_image(img_a+perturb_stargan, os.path.join(inference_path, 'MIM_img_a.jpg'), normalize=True, nrow=1)
     
     # print(f"HiSD: l1 error: {l1_hisd / n_samples_hisd}, l2_error: {l2_hisd / n_samples_hisd}, prop_dist: {float(n_dist_hisd) / n_samples_hisd}, L0 error: {l0_hisd / n_samples_hisd}, L_-inf error: {min_dist_hisd / n_samples_hisd}.")
     hisd_prop_dist = float(n_dist_hisd) / n_samples_hisd
