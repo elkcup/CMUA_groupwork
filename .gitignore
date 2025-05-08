@@ -1,5 +1,4 @@
 *.pt
-*.pth
 *.DS_Store
 *.vscode/settings.json
 checkpoint_128_celeba-hq.pt
