@@ -41,6 +41,8 @@ def evaluate_multiple_models(args_attack, test_dataloader, attgan, attgan_args, 
             break
         
         img_a = img_a.cuda() if args_attack.global_settings.gpu else img_a
+        if idx==0:
+            vutils.save_image(img_a+bim_attack.up,'outputs/BIM_perturb.jpg',nrow=1, normalize=True)
         
         with torch.no_grad():
             # 干净样本生成
@@ -141,6 +143,11 @@ def evaluate_multiple_models(args_attack, test_dataloader, attgan, attgan_args, 
         for j in range(len(x_fake_list)):
             gen_noattack = x_noattack_list[j]
             gen = x_fake_list[j]
+            
+            if idx==0 and j==0:
+                vutils.save_image(gen_noattack,'outputs/BIM_gen_noattack.jpg',nrow=1, normalize=True)
+                vutils.save_image(gen,'outputs/BIM_gen_attack.jpg',nrow=1, normalize=True)
+            
             mask = abs(gen_noattack - img_a)
             mask = mask[0,0,:,:] + mask[0,1,:,:] + mask[0,2,:,:]
             mask[mask>0.5] = 1
@@ -194,14 +201,7 @@ def evaluate_multiple_models(args_attack, test_dataloader, attgan, attgan_args, 
     return HiDF_prop_dist, stargan_prop_dist, attgan_prop_dist, aggan_prop_dist
 
 
-def evaluate_bim(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models):
-    # 初始化 BIMAttack 实例
-    bim_attack = attacks.BIMAttack(model=None, device=torch.device('cuda' if torch.cuda.is_available() else 'cpu'), epsilon=args_attack.attacks.epsilon, k=args_attack.attacks.k, a=args_attack.attacks.a, star_factor=args_attack.attacks.star_factor, attention_factor=args_attack.attacks.attention_factor, att_factor=args_attack.attacks.att_factor, HiSD_factor=args_attack.attacks.HiSD_factor, args=args_attack.attacks)
-    
-    # 加载扰动
-    if args_attack.global_settings.universal_perturbation_path:
-        bim_attack.up = torch.load(args_attack.global_settings.universal_perturbation_path)
-    else:
-        bim_attack.up = torch.zeros_like(test_dataloader.dataset[0][0]).unsqueeze(0).to(bim_attack.device)
+def evaluate_bim(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models, bim_attack):
+    bim_attack.up = torch.load('./bim_perturbation.pt')
     
     return evaluate_multiple_models(args_attack, test_dataloader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models, bim_attack)
