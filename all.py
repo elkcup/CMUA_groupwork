@@ -392,7 +392,7 @@ MD_fgsm_HiDF_sr, MD_fgsm_stargan_sr, MD_fgsm_AttGAN_sr, MD_fgsm_AttentionGAN_sr=
 ##################################
 
 # 评估BIM
-bim_hisd_dist,bim_attgan_dist,bim_attentiongan_dist, bim_stargan_dist = evaluate_bim(args_attack, sub_loader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models)
+bim_hisd_dist,bim_attgan_dist,bim_attentiongan_dist, bim_stargan_dist = evaluate_bim(args_attack, sub_loader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models, bim_attack)
 
 
 ## 结果输出
