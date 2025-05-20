@@ -12,6 +12,8 @@ import logging
 
 from StandardPGD.PGD import PGDAttack
 from MIM.mim import MIMattack
+import bim_attack as bim_attack
+
 from evaluate_pgd_mim import evaluate_pgd, evaluate_mim
 from evaluate_cmua_apgd import evaluate_apgd,evaluate_cmua
 from auto_fgsm_evaluate import evaluate_FGSM
@@ -135,7 +137,7 @@ MD_fgsm_HiDF_sr, MD_fgsm_stargan_sr, MD_fgsm_AttGAN_sr, MD_fgsm_AttentionGAN_sr=
 ##################################
 
 # 评估BIM
-bim_hisd_dist,bim_attgan_dist,bim_attentiongan_dist, bim_stargan_dist = evaluate_bim(args_attack, sub_loader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models)
+bim_hisd_dist,bim_attgan_dist,bim_attentiongan_dist, bim_stargan_dist = evaluate_bim(args_attack, sub_loader, attgan, attgan_args, solver, attentiongan_solver, transform, F, T, G, E, reference, gen_models, bim_attack)
 
 
 
